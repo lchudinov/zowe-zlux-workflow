@@ -4,7 +4,7 @@
   "scripts": {
     "start": "webpack --progress --colors --watch",
     "build": "webpack --colors",
-    "i18n": "ng-xi18n -p tsconfig.i18n.json --i18nFormat=xlf  --outFile=messages.xlf",
+    "i18n": "ng-xi18n -p tsconfig.i18n.json --i18nFormat=xlf  --outFile=messages.xlf && xliffmerge --profile xliffmerge.json",
     "lint": "ng lint",
     "serve": "ng serve"
   },
@@ -28,8 +28,8 @@
     "@angular/compiler-cli": "~6.0.9",
     "@angular/language-service": "~6.0.9",
     "@types/node": "~6.0.60",
-    "@zlux/grid": "git+ssh://git@github.com:zowe/zlux-grid.git",
-    "@zlux/widgets": "git+ssh://git@github.com:zowe/zlux-widgets.git",
+    "@zlux/grid": "git+ssh://git@github.com:rpenny125/zlux-grid.git#provide-metadata-files",
+    "@zlux/widgets": "git+ssh://git@github.com:rpenny125/zlux-widgets.git#provide-metadata-files",
     "codelyzer": "~4.4.2",
     "angular2-template-loader": "^0.6.2",
     "copy-webpack-plugin": "^4.0.1",
