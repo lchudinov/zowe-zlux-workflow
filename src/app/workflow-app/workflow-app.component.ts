@@ -85,6 +85,9 @@ export class WorkflowAppComponent implements AfterContentInit {
   nextWorkflowStepIsReady: boolean = false;
   viewCreateWorkflow: boolean = false;
   activeMenuItem: WorkflowView = 'My Tasks';
+  resolveClose: () => void;
+  rejectClose: () => void;
+  isOnCloseDialogVisible = false;
 
   constructor(
     @Inject(Angular2InjectionTokens.LAUNCH_METADATA) private launchMetadata: WorkflowAppLaunchMetadata,
@@ -118,9 +121,41 @@ export class WorkflowAppComponent implements AfterContentInit {
   }
 
   ngAfterContentInit(): void {
+    this.windowActions.registerCloseHandler(() => this.onClose())
     if (!this.configured) {
       this.showConfiguration();
     }
+  }
+
+  onClose(): Promise<void> {
+    const thereAreUnsavedChanges = true;
+    if (thereAreUnsavedChanges) {
+      this.showOnCloseDialog();
+      return new Promise((resolve, reject) => {
+        this.resolveClose = resolve;
+        this.rejectClose = reject;
+      });
+    } else {
+      return Promise.resolve();
+    }
+  }
+
+  showOnCloseDialog(): void {
+    this.isOnCloseDialogVisible = true;
+  }
+
+  saveChangesAndExit(): void {
+    // yourSaveConfigChangesFunction().then(() => this.resolveClose());
+    this.resolveClose();
+  }
+
+  exit(): void {
+    this.resolveClose();
+  }
+
+  cancelCloseDialog(): void {
+    this.isOnCloseDialogVisible = false;
+    this.rejectClose();
   }
 
   onStepSelectedAction(stepAction: WorkflowStepAction): void {
